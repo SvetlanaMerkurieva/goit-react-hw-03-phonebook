@@ -1,6 +1,11 @@
-.title {
+.li {
   color: black;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 .text {
-  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 30px;
 }
