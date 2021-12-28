@@ -29,8 +29,8 @@ class App extends Component {
       number: data.number,
     };
     const onAddContact = () => {
-      this.setState(prevstate => ({
-        contacts: [...prevstate.contacts, contact],
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, contact],
       }));
     };
     if (this.state.contacts.find(item => item.name === data.name)) {
@@ -40,8 +40,8 @@ class App extends Component {
     }
   };
   deleteContact = contactId => {
-    this.setState(prevstate => ({
-      contacts: prevstate.contacts.filter(contact => contact.id !== contactId),
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
   changeFilter = e => {
