@@ -6,17 +6,17 @@ export class ContactForm extends Component {
     name: '',
     number: '',
   };
-  handleInputChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+
+  handleInputChange = ({ target: { name, value } }) => {
+    this.setState({ [name]: value });
   };
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit(this.state);
-
     this.setState({ name: '', number: '' });
   };
+
   render() {
     return (
       <section>

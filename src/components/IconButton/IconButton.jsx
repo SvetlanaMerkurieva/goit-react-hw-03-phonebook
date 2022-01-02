@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import s from '../IconButton/IconButton.module.css';
 
-export const IconButton = ({ children, onClick, ...allyProps }) => (
+export const IconButton = ({ children, onClick, ...allProps }) => (
   <button
     type="button"
     className={s.iconButton}
     onClick={onClick}
-    {...allyProps}
+    {...allProps}
   >
     {children}
   </button>

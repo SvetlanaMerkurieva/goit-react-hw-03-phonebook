@@ -10,51 +10,66 @@ class App extends Component {
     contacts: [],
     filter: '',
   };
-  componentDidUpdate(prevProps, prevState) {
+
+  #localstorageKey = 'contacts';
+
+  componentDidUpdate(_prevProps, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+      localStorage.setItem(
+        this.#localstorageKey,
+        JSON.stringify(this.state.contacts),
+      );
     }
   }
+
   componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState({ contacts: parsedContacts });
+    const storageContacts = localStorage.getItem(this.#localstorageKey);
+    const contacts = JSON.parse(storageContacts);
+    if (contacts) {
+      this.setState({ contacts });
     }
   }
+
   handleFormSubmit = data => {
-    const contact = {
-      id: shortid.generate(),
-      name: data.name,
-      number: data.number,
-    };
-    const onAddContact = () => {
+    const isContact = this.state.contacts.find(
+      ({ name }) => name === data.name,
+    );
+
+    if (isContact) {
+      return window.alert(`Контакт с именем ${data.name} уже существет`);
+    } else {
+      const contact = {
+        id: shortid.generate(),
+        name: data.name,
+        number: data.number,
+      };
+
       this.setState(prevState => ({
         contacts: [...prevState.contacts, contact],
       }));
-    };
-    if (this.state.contacts.find(item => item.name === data.name)) {
-      return window.alert(`Котакт с именем ${data.name} уже существет`);
-    } else {
-      onAddContact();
     }
   };
+
   deleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
     }));
   };
-  changeFilter = e => {
-    this.setState({ filter: e.target.value });
+
+  changeFilter = ({ target: { value: filter } }) => {
+    this.setState({ filter });
   };
+
   getVisibleContact = () => {
     const normalValueFilter = this.state.filter.toLowerCase();
     return this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalValueFilter),
     );
   };
+
   render() {
     const visibleContacts = this.getVisibleContact();
+
     return (
       <div className={s.app}>
         <header className={s.appHeader}>
